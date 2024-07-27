@@ -1,0 +1,28 @@
+.button {
+    padding: 0px 8px;
+
+    height: 32px;
+
+    font: var(--font);
+    background-color: var(--bg);
+    color: var(--text-color);
+
+    border-radius: 8px;
+
+    &:hover {
+        @media (hover: hover) {
+            background-color: var(--bg-secondary);
+        }
+    }
+}
+
+.primary {
+    color: var(--text-secondary-color);
+    background-color: var(--bg-primary);
+
+    &:hover {
+        @media (hover: hover) {
+            background-color: var(--bg-primary-active);
+        }
+    }
+}

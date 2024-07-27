@@ -1,11 +1,15 @@
 .app.dark {
-  --text-color: #c2bebe;
-  --text-secondary-color: #ffffff;
+    --text-color: #c2bebe;
+    --text-secondary-color: #ffffff;
 
-  --label-color: #999999;
+    --label-color: #999999;
 
-  --bg-primary: #5552cf;
-  --bg: #000000;
+    --bg-primary: #5552cf;
+    --bg-primary-active: #4d4bc0;
+    --bg-secondary: #000000;
+    --bg: #161616;
 
-  --border-color: #999999;
+    --border-color: #999999;
+
+    --box-shadow: none;
 }

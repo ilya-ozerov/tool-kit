@@ -1,0 +1,31 @@
+.cell {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.label {
+    font-size: 12px;
+    line-height: 100%;
+
+    color: var(--label-color);
+}
+
+.value {
+    a {
+        color: var(--bg-primary);
+
+        &:hover {
+            @media (hover: hover) {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    & {
+        min-width: 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}

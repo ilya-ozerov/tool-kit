@@ -1,3 +1,4 @@
+import { pageSize } from "../../lib/constants";
 import { stringToBase64 } from "../../lib/helpers";
 import { BaseService } from "../base-service";
 import {
@@ -9,7 +10,7 @@ export class GithubService extends BaseService {
     public static getRepositories(
         query: string,
         skip: number | null = null,
-        take: number = 10,
+        take: number = pageSize,
     ) {
         const after = skip
             ? '"' + stringToBase64("cursor:" + skip) + '"'
@@ -42,6 +43,7 @@ export class GithubService extends BaseService {
                       }
                     }
                   }
+                  repositoryCount
                   pageInfo {
                     startCursor
                     endCursor

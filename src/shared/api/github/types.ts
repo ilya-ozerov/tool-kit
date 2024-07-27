@@ -1,13 +1,16 @@
+export type RepositoriesPageInfoType = {
+    endCursor: string;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+    startCursor: string;
+};
+
 export type GetRepositoriesPayloadType = {
     data: {
         search: {
             repositories: RepositoryListItemType[];
-            pageInfo: {
-                endCursor: string;
-                hasNextPage: boolean;
-                hasPreviousPage: boolean;
-                startCursor: string;
-            };
+            repositoryCount: number;
+            pageInfo: RepositoriesPageInfoType;
         };
     };
 };
@@ -30,14 +33,14 @@ type BranchType = {
     };
 };
 
-type RepositoryListItemType = {
+export type RepositoryListItemType = {
     repository: {
         id: string;
         name: string;
         owner: Omit<OwnerType, "avatarUrl" | "url">;
         stargazerCount: number;
         url: string;
-        defaultBranchRef: BranchType;
+        defaultBranchRef?: BranchType;
     };
 };
 
@@ -51,7 +54,7 @@ type RepositoryType = {
     name: string;
     owner: OwnerType;
     stargazerCount: number;
-    defaultBranchRef: BranchType;
+    defaultBranchRef?: BranchType;
     languages: LanguageType[];
 };
 

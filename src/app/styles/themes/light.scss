@@ -5,9 +5,12 @@
     --label-color: #999999;
 
     --bg-primary: #5552cf;
+    --bg-primary-active: #4d4bc0;
+    --bg-secondary: #eeeeee;
     --bg: #ffffff;
 
     --border-color: #999999;
 
-    --box-shadow: 0px 0px 4px 2px rgba(0, 0, 0, 4%);
+    --box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+        rgba(0, 0, 0, 0.1) 0px 2px 4px -2px;
 }
