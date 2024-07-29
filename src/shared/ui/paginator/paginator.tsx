@@ -38,9 +38,14 @@ export const Paginator: FC<IPaginator> = ({
         </Button>
     ));
 
+    console.log("currentPage", currentPage);
+
+    const isShowPrevButton = pages.length > 0 && currentPage > 1;
+    const isShowNextButton = pages.length > 0 && currentPage < pagesCount;
+
     return (
         <div className={clsx(styles.paginator, className)}>
-            {currentPage > 1 && (
+            {isShowPrevButton && (
                 <Button
                     onClick={() => onChangePage(currentPage - 1)}
                     variant="primary"
@@ -50,7 +55,7 @@ export const Paginator: FC<IPaginator> = ({
             )}
 
             <div className={styles.pages}>{renderPages}</div>
-            {currentPage < pagesCount && (
+            {isShowNextButton && (
                 <Button
                     onClick={() => onChangePage(currentPage + 1)}
                     variant="primary"

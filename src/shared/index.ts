@@ -1,3 +1,9 @@
+export { IconButton } from "./ui/icon-button/icon-button";
+
+export { Icon } from "./ui/icon/icon";
+
+export { Loader } from "./ui/loader/loader";
+
 export { pageSize } from "./lib/constants";
 
 export { Button } from "./ui/button/button";
@@ -9,6 +15,7 @@ export { Cell } from "./ui/cell/cell";
 export type {
     RepositoryListItemType,
     RepositoriesPageInfoType,
+    RepositoryType,
 } from "./api/github/types";
 
 export { GithubService } from "./api/github/github-service";

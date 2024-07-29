@@ -8,10 +8,16 @@ interface ISearchField {
 }
 
 export const SearchField: FC<ISearchField> = ({
+    query,
     onChangeQuery,
     className = "",
 }) => {
-    const [tempValue, setTempValue] = useState("");
+    const [tempValue, setTempValue] = useState(query);
+
+    useEffect(() => {
+        setTempValue(query);
+    }, [query]);
+
     const timeoutRef = useRef(0);
 
     useEffect(() => {

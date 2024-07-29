@@ -1,38 +1,34 @@
 import { FC, useEffect } from "react";
-import { Cell, pageSize, Paginator } from "shared";
+import { Cell, Loader, pageSize, Paginator, routePath } from "shared";
 import styles from "./main-page.module.scss";
 import { useUnit } from "effector-react";
 import {
+    $isPendingCurrentUserRepos,
     $isPendingRepositories,
-    $pageNumber,
     $repositories,
     $repositoriesTotalCount,
-    $searchQuery,
+    getCurrentUserReposFx,
     getRepositoriesFx,
-    pageNumberChanged,
-    searchQueryChanged,
 } from "../model/repositories-store";
 import { SearchField } from "entities/search-field";
+import { useReposSearchParams } from "../lib/hooks/use-repos-search-params";
 
 const MainPage: FC = () => {
+    const getCurrentUserRepos = useUnit(getCurrentUserReposFx);
     const getRepositories = useUnit(getRepositoriesFx);
     const repositories = useUnit($repositories);
     const isPendingRepositories = useUnit($isPendingRepositories);
+    const isPendingCurrentUserRepos = useUnit($isPendingCurrentUserRepos);
     const repositoriesTotalCount = useUnit($repositoriesTotalCount);
 
-    const [searchQuery, setSearchQuery] = useUnit([
-        $searchQuery,
-        searchQueryChanged,
-    ]);
-
-    const [pageNumber, setPageNumber] = useUnit([
-        $pageNumber,
-        pageNumberChanged,
-    ]);
+    const { pageNumber, searchQuery, setPageNumber, setSearchQuery } =
+        useReposSearchParams();
 
     useEffect(() => {
         if (searchQuery.length === 0) {
-            setPageNumber(1);
+            getCurrentUserRepos({
+                skip: (pageNumber - 1) * pageSize,
+            });
         }
         if (searchQuery.length > 0) {
             getRepositories({
@@ -40,11 +36,23 @@ const MainPage: FC = () => {
                 skip: (pageNumber - 1) * pageSize,
             });
         }
-    }, [getRepositories, pageNumber, searchQuery, setPageNumber]);
+    }, [
+        getCurrentUserRepos,
+        getRepositories,
+        pageNumber,
+        searchQuery,
+        setPageNumber,
+    ]);
 
     const renderRepositories = repositories.map((item) => (
         <li key={item.repository.id}>
-            <Cell label="Name" value={item.repository.name} />
+            <Cell
+                label="Name"
+                value={item.repository.name}
+                type="link"
+                linkTarget="_self"
+                linkTo={`${routePath.card}/${item.repository.owner.login}/${item.repository.name}`}
+            />
             <Cell
                 label="Stars"
                 value={String(item.repository.stargazerCount)}
@@ -61,6 +69,8 @@ const MainPage: FC = () => {
         </li>
     ));
 
+    const isShowLoader = isPendingRepositories || isPendingCurrentUserRepos;
+
     return (
         <section className={styles.main_section}>
             <SearchField query={searchQuery} onChangeQuery={setSearchQuery} />
@@ -72,8 +82,8 @@ const MainPage: FC = () => {
                 totalItemsCount={repositoriesTotalCount}
             />
             <div className={styles.list_container}>
-                {isPendingRepositories && <div>Loading...</div>}
-                {!isPendingRepositories && (
+                {isShowLoader && <Loader />}
+                {!isShowLoader && (
                     <ul className={styles.list}>{renderRepositories}</ul>
                 )}
             </div>

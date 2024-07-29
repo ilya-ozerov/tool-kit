@@ -1,11 +1,11 @@
-import { FC, Suspense } from "react";
+import { FC, memo, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { routeConfig, routePath } from "shared";
+import { Loader, routeConfig, routePath } from "shared";
 
-export const AppRouter: FC = () => {
+export const AppRouter: FC = memo(() => {
     return (
         <div className="page">
-            <Suspense fallback="Loading...">
+            <Suspense fallback={<Loader />}>
                 <Routes>
                     {Object.values(routeConfig).map((route) => (
                         <Route key={route.path} {...route} />
@@ -18,4 +18,4 @@ export const AppRouter: FC = () => {
             </Suspense>
         </div>
     );
-};
+});

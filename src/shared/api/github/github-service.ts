@@ -1,7 +1,9 @@
 import { pageSize } from "../../lib/constants";
 import { stringToBase64 } from "../../lib/helpers";
 import { BaseService } from "../base-service";
+import { GithubFragments } from "./github-fragments";
 import {
+    GetCurrentUserReposPayloadType,
     GetRepositoriesPayloadType,
     GetSingleRepositoryPayload,
 } from "./types";
@@ -18,38 +20,12 @@ export class GithubService extends BaseService {
 
         return this.baseGithubRequest<GetRepositoriesPayloadType>(`
             query {
-                search(type: REPOSITORY, query: "${query}", first: ${take}, after: ${after}) {
-                  repositories: edges {
-                    repository: node {
-                      ... on Repository {
-                        id
-                        name
-                        owner {
-                            login
-                        }
-                        stargazerCount
-                        url
-                        defaultBranchRef {
-                          target {
-                            ... on Commit {
-                              history(first: 1) {
-                                nodes {
-                                  committedDate
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
+                result: search(type: REPOSITORY, query: "${query}", first: ${take}, after: ${after}) {
+                    repositories: edges {
+                        ${GithubFragments.repoListItem()}
                     }
-                  }
-                  repositoryCount
-                  pageInfo {
-                    startCursor
-                    endCursor
-                    hasNextPage
-                    hasPreviousPage
-                  }
+                    repositoryCount
+                    ${GithubFragments.pageInfo()}
                 }
             }
     `);
@@ -69,17 +45,7 @@ export class GithubService extends BaseService {
                         login
                         url
                     }
-                    defaultBranchRef {
-                        target {
-                            ... on Commit {
-                                history(first: 1) {
-                                    nodes {
-                                        committedDate
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    ${GithubFragments.branch()}
                     languages(first: 100) {
                         edges {
                             node {
@@ -89,6 +55,29 @@ export class GithubService extends BaseService {
                         }
                     }
                     description
+                }
+            }
+        `);
+    }
+
+    public static getCurrentUserRepos(
+        skip: number | null = null,
+        take: number = pageSize,
+    ) {
+        const after = skip
+            ? '"' + stringToBase64("cursor:" + skip) + '"'
+            : null;
+
+        return this.baseGithubRequest<GetCurrentUserReposPayloadType>(`
+            {
+                result: viewer {
+                    repositories(first: ${take}, after: ${after}) {
+                        repositories: edges {
+                            ${GithubFragments.repoListItem()}
+                        }
+                        repositoryCount: totalCount
+                        ${GithubFragments.pageInfo()}
+                    }
                 }
             }
         `);

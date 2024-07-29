@@ -2,23 +2,23 @@ import { CardPage } from "pages/card-page";
 import { MainPage } from "pages/main-page";
 import { RouteProps } from "react-router-dom";
 
-const enum appRoutes {
+const enum AppRoutes {
     MAIN = "main",
     CARD = "card",
 }
 
-export const routePath: Record<appRoutes, string> = {
-    [appRoutes.MAIN]: "/main",
-    [appRoutes.CARD]: "/card",
+export const routePath: Record<AppRoutes, string> = {
+    [AppRoutes.MAIN]: "/main",
+    [AppRoutes.CARD]: "/card",
 };
 
-export const routeConfig: Record<appRoutes, RouteProps> = {
-    [appRoutes.MAIN]: {
+export const routeConfig: Record<AppRoutes, RouteProps> = {
+    [AppRoutes.MAIN]: {
         path: routePath.main,
         element: <MainPage />,
     },
-    [appRoutes.CARD]: {
-        path: routePath.card,
+    [AppRoutes.CARD]: {
+        path: `${routePath.card}/:owner/:name`,
         element: <CardPage />,
     },
 };

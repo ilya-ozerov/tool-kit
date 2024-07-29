@@ -7,11 +7,20 @@ interface ICell {
     label: string;
     value: string | undefined | null;
     type?: "text" | "date" | "link";
+    linkTo?: string;
+    linkTarget?: React.HTMLAttributeAnchorTarget;
     className?: string;
 }
 
 export const Cell: FC<ICell> = (props) => {
-    const { label, value, className = "", type = "text" } = props;
+    const {
+        label,
+        value,
+        className = "",
+        type = "text",
+        linkTo,
+        linkTarget,
+    } = props;
 
     const labelId = useId();
 
@@ -25,7 +34,7 @@ export const Cell: FC<ICell> = (props) => {
                 return new Date(value).toUTCString();
             case "link":
                 return (
-                    <Link to={value} target="_blank">
+                    <Link to={linkTo || value} target={linkTarget || "_blank"}>
                         {value}
                     </Link>
                 );

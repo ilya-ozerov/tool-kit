@@ -1,6 +1,6 @@
 .cell {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+
     gap: 4px;
 }
 
@@ -12,6 +12,13 @@
 }
 
 .value {
+    display: inline-block;
+
+    min-width: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
     a {
         color: var(--bg-primary);
 
@@ -20,12 +27,5 @@
                 text-decoration: underline;
             }
         }
-    }
-
-    & {
-        min-width: 0;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
     }
 }

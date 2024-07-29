@@ -1,9 +1,15 @@
-import { createEffect, createEvent, createStore } from "effector";
+import { createEffect, createStore } from "effector";
 import {
     GithubService,
     RepositoriesPageInfoType,
     RepositoryListItemType,
 } from "shared";
+
+export const getCurrentUserReposFx = createEffect(
+    async ({ skip }: { skip: number }) => {
+        return GithubService.getCurrentUserRepos(skip);
+    },
+);
 
 export const getRepositoriesFx = createEffect(
     async ({ query, skip }: { query: string; skip: number }) => {
@@ -13,37 +19,31 @@ export const getRepositoriesFx = createEffect(
 
 export const $repositories = createStore<RepositoryListItemType[]>([]).on(
     getRepositoriesFx.doneData,
-    (_, payload) => payload.data.search.repositories,
+    (_, payload) => payload.data.result.repositories,
 );
+
+$repositories.on(
+    getCurrentUserReposFx.doneData,
+    (_, payload) => payload.data.result.repositories.repositories,
+);
+
+export const $isPendingRepositories = getRepositoriesFx.pending;
+
+export const $isPendingCurrentUserRepos = getCurrentUserReposFx.pending;
 
 export const $repositoriesPageInfo = createStore<RepositoriesPageInfoType>({
     endCursor: "",
     hasNextPage: false,
     hasPreviousPage: false,
     startCursor: "",
-}).on(getRepositoriesFx.doneData, (_, payload) => payload.data.search.pageInfo);
+}).on(getRepositoriesFx.doneData, (_, payload) => payload.data.result.pageInfo);
 
 export const $repositoriesTotalCount = createStore<number>(0).on(
     getRepositoriesFx.doneData,
-    (_, payload) => payload.data.search.repositoryCount,
+    (_, payload) => payload.data.result.repositoryCount,
 );
 
-export const $isPendingRepositories = getRepositoriesFx.pending;
-
-export const searchQueryChanged = createEvent<string>("queryChanged");
-
-export const $searchQuery = createStore("").on(
-    searchQueryChanged,
-    (_, payload) => {
-        return payload;
-    },
-);
-
-export const pageNumberChanged = createEvent<number>("pageChanged");
-
-export const $pageNumber = createStore(1).on(
-    pageNumberChanged,
-    (_, payload) => {
-        return payload;
-    },
+$repositoriesTotalCount.on(
+    getCurrentUserReposFx.doneData,
+    (_, payload) => payload.data.result.repositories.repositoryCount,
 );

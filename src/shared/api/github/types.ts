@@ -7,7 +7,7 @@ export type RepositoriesPageInfoType = {
 
 export type GetRepositoriesPayloadType = {
     data: {
-        search: {
+        result: {
             repositories: RepositoryListItemType[];
             repositoryCount: number;
             pageInfo: RepositoriesPageInfoType;
@@ -45,21 +45,37 @@ export type RepositoryListItemType = {
 };
 
 type LanguageType = {
-    id: string;
-    name: string;
+    node: {
+        id: string;
+        name: string;
+    };
 };
 
-type RepositoryType = {
+export type RepositoryType = {
     description: string;
     name: string;
     owner: OwnerType;
     stargazerCount: number;
     defaultBranchRef?: BranchType;
-    languages: LanguageType[];
+    languages: {
+        edges: LanguageType[];
+    };
 };
 
 export type GetSingleRepositoryPayload = {
     data: {
         repository: RepositoryType;
+    };
+};
+
+export type GetCurrentUserReposPayloadType = {
+    data: {
+        result: {
+            repositories: {
+                repositories: RepositoryListItemType[];
+                repositoryCount: number;
+                pageInfo: RepositoriesPageInfoType;
+            };
+        };
     };
 };
