@@ -16,6 +16,7 @@ export const ThemeSwitcher: FC<IThemeSwitcher> = ({ className = "" }) => {
             className={className}
             onClick={toggleTheme}
             icon={theme === Theme.LIGHT ? "light_mode" : "dark_mode"}
+            data-testid="ThemeSwitcher"
         />
     );
 };

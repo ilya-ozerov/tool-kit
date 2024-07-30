@@ -14,9 +14,15 @@ export const AppRouter: FC = memo(() => {
                 }
             >
                 <Routes>
-                    {Object.values(routeConfig).map((route) => (
-                        <Route key={route.path} {...route} />
-                    ))}
+                    {Object.values(routeConfig).map((route) => {
+                        if (
+                            route.path === routePath.test &&
+                            import.meta.env.MODE !== "development"
+                        ) {
+                            return null;
+                        }
+                        return <Route key={route.path} {...route} />;
+                    })}
                     <Route
                         path="*"
                         element={<Navigate to={routePath.main} />}

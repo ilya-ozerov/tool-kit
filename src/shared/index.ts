@@ -1,3 +1,5 @@
+export { TestBlock } from "./ui/test-block/test-block";
+
 export { IconButton } from "./ui/icon-button/icon-button";
 
 export { Icon } from "./ui/icon/icon";
