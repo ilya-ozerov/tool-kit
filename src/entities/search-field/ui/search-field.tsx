@@ -35,7 +35,7 @@ export const SearchField: FC<ISearchField> = ({
 
                 timeoutRef.current = setTimeout(() => {
                     onChangeQuery(ev.target.value);
-                }, 1500);
+                }, 1000);
             }}
             className={className}
         />

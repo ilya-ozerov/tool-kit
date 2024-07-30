@@ -27,7 +27,12 @@ const CardPage: FC = () => {
             });
     }, [getSingleRepository, params]);
 
-    if (isPendingSingleRepository) return <Loader />;
+    if (isPendingSingleRepository)
+        return (
+            <div className={styles.loader_container}>
+                <Loader />
+            </div>
+        );
 
     return (
         <div className={styles.card}>

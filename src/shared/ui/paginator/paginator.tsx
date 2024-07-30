@@ -38,8 +38,6 @@ export const Paginator: FC<IPaginator> = ({
         </Button>
     ));
 
-    console.log("currentPage", currentPage);
-
     const isShowPrevButton = pages.length > 0 && currentPage > 1;
     const isShowNextButton = pages.length > 0 && currentPage < pagesCount;
 
