@@ -21,6 +21,8 @@ const MainPage: FC = () => {
     const isPendingCurrentUserRepos = useUnit($isPendingCurrentUserRepos);
     const repositoriesTotalCount = useUnit($repositoriesTotalCount);
 
+    const isPendingRepos = isPendingRepositories || isPendingCurrentUserRepos;
+
     const { pageNumber, searchQuery, setPageNumber, setSearchQuery } =
         useReposSearchParams();
 
@@ -69,8 +71,6 @@ const MainPage: FC = () => {
         </li>
     ));
 
-    const isShowLoader = isPendingRepositories || isPendingCurrentUserRepos;
-
     return (
         <section className={styles.main_section}>
             <SearchField query={searchQuery} onChangeQuery={setSearchQuery} />
@@ -82,8 +82,8 @@ const MainPage: FC = () => {
                 totalItemsCount={repositoriesTotalCount}
             />
             <div className={styles.list_container}>
-                {isShowLoader && <Loader />}
-                {!isShowLoader && (
+                {isPendingRepos && <Loader />}
+                {!isPendingRepos && (
                     <ul className={styles.list}>{renderRepositories}</ul>
                 )}
             </div>

@@ -18,7 +18,7 @@ export const SearchField: FC<ISearchField> = ({
         setTempValue(query);
     }, [query]);
 
-    const timeoutRef = useRef(0);
+    const timeoutRef = useRef<NodeJS.Timeout>();
 
     useEffect(() => {
         return () => {
@@ -28,6 +28,7 @@ export const SearchField: FC<ISearchField> = ({
 
     return (
         <Input
+            data-testid="search-field"
             value={tempValue}
             onChange={(ev) => {
                 clearTimeout(timeoutRef.current);
