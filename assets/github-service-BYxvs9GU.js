@@ -1,4 +1,4 @@
-import{r as h,j as n,a as b,f as m,g as f}from"./index-AxsEfhZA.js";const u=10,x="_cell_waa4c_1",$="_label_waa4c_6",v="_value_waa4c_12",i={cell:x,label:$,value:v},R=s=>{const{label:t,value:e,className:r="",type:o="text",linkTo:g,linkTarget:p}=s,l=h.useId(),d=()=>{if(!e)return"-";switch(o){case"text":return e;case"date":return new Date(e).toUTCString();case"link":return n.jsx(m,{to:g||e,target:p||"_blank",children:e});default:return String(e)}};return n.jsxs("div",{className:b(i.cell,r),children:[n.jsx("label",{htmlFor:l,className:i.label,children:t}),n.jsx("div",{id:l,className:i.value,children:d()})]})},c=s=>btoa(s);class y{static baseGithubRequest(t){return f.post("",{query:t}).then(e=>e.data)}}class a{static branch(){return`
+import{g as u}from"./index-P6UkT1Jm.js";const a=10,i=s=>btoa(s);class c{static baseGithubRequest(e){return u.post("",{query:e}).then(t=>t.data)}}class r{static branch(){return`
             defaultBranchRef {
                 target {
                     ... on Commit {
@@ -30,19 +30,19 @@ import{r as h,j as n,a as b,f as m,g as f}from"./index-AxsEfhZA.js";const u=10,x
                 hasNextPage
                 hasPreviousPage
             }
-        `}}class I extends y{static getRepositories(t,e=null,r=u){const o=e?'"'+c("cursor:"+e)+'"':null;return this.baseGithubRequest(`
+        `}}class p extends c{static getRepositories(e,t=null,o=a){const n=t?'"'+i("cursor:"+t)+'"':null;return this.baseGithubRequest(`
             query {
-                result: search(type: REPOSITORY, query: "${t}", first: ${r}, after: ${o}) {
+                result: search(type: REPOSITORY, query: "${e}", first: ${o}, after: ${n}) {
                     repositories: edges {
-                        ${a.repoListItem()}
+                        ${r.repoListItem()}
                     }
                     repositoryCount
-                    ${a.pageInfo()}
+                    ${r.pageInfo()}
                 }
             }
-    `)}static getSingleRepository(t,e){return this.baseGithubRequest(`
+    `)}static getSingleRepository(e,t){return this.baseGithubRequest(`
             {
-                repository(owner: "${t}", name: "${e}") {
+                repository(owner: "${e}", name: "${t}") {
                     name
                     stargazerCount
                     owner {
@@ -50,7 +50,7 @@ import{r as h,j as n,a as b,f as m,g as f}from"./index-AxsEfhZA.js";const u=10,x
                         login
                         url
                     }
-                    ${a.branch()}
+                    ${r.branch()}
                     languages(first: 100) {
                         edges {
                             node {
@@ -62,16 +62,16 @@ import{r as h,j as n,a as b,f as m,g as f}from"./index-AxsEfhZA.js";const u=10,x
                     description
                 }
             }
-        `)}static getCurrentUserRepos(t=null,e=u){const r=t?'"'+c("cursor:"+t)+'"':null;return this.baseGithubRequest(`
+        `)}static getCurrentUserRepos(e=null,t=a){const o=e?'"'+i("cursor:"+e)+'"':null;return this.baseGithubRequest(`
             {
                 result: viewer {
-                    repositories(first: ${e}, after: ${r}) {
+                    repositories(first: ${t}, after: ${o}) {
                         repositories: edges {
-                            ${a.repoListItem()}
+                            ${r.repoListItem()}
                         }
                         repositoryCount: totalCount
-                        ${a.pageInfo()}
+                        ${r.pageInfo()}
                     }
                 }
             }
-        `)}}export{R as C,I as G,u as p};
+        `)}}export{p as G,a as p};
